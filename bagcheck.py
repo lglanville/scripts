@@ -4,17 +4,17 @@ import json
 import argparse
 import datetime
 
-def get_baglist():
-    if os.path.exists('bags.json'):
-        with open('bags.json') as f:
+def get_baglist(filepath, *args):
+    if os.path.exists(filepath):
+        with open(filepath) as f:
             baglist = json.loads(f.read())
     else:
-        baglist = {'date created' : datetime.datetime.now().isoformat(), 'base directory' : os.getcwd(), 'bags': {}}
+        baglist = {'date created' : datetime.datetime.now().isoformat(), 'base directory' : args[0], 'bags': {}}
     return(baglist)
 
-def find_bags(dir):
+def find_bags(baglist):
     bags = []
-    for root, _, files in os.walk(dir):
+    for root, _, files in os.walk(baglist['base directory']):
         for file in files:
             if file == 'bagit.txt':
                 bags.append(root.replace(baglist['base directory']+'\\', ''))
@@ -27,8 +27,8 @@ def report(baglist):
         interval = datetime.datetime.now()-latest
         print(', '.join([bag, latest.isoformat(), checks[latest.isoformat()], "{i.days} days since last check".format(i=interval)]))
 
-def validate(baglist):
-    bags = find_bags(baglist['base directory'])
+def validate(baglist, baglistfile):
+    bags = find_bags(baglist)
     for bagdir in bags:
         if bagdir not in baglist['bags'].keys():
             print('New bag: ', bagdir)
@@ -49,18 +49,19 @@ def validate(baglist):
     for bag in missing:
         print('Missing: ', bag)
         baglist['bags'][bag].update({datetime.datetime.now().isoformat() : 'MISSING'})
-    with open('bags.json', 'w') as f:
+    with open(baglistfile, 'w') as f:
         f.write(json.dumps(baglist, indent=1))
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Validate some bags')
-    parser.add_argument('directory', metavar='i', type=str, help='the base directory with your bags')
+    parser = argparse.ArgumentParser(description='Validate some bags.')
+    parser.add_argument('directory', metavar='i', type=str, nargs='?', help='the base directory with your bags. Not required if using an existing baglist')
+    parser.add_argument('--baglist', dest='baglist', type=str, default='bags.json', help='Location of a new or existing bag list. If it already exists, directory will be ignored in favor of the base directory defined in the list.')
     parser.add_argument('--report', action='store_true', help='report on latest validations in csv (pipe to a text file)')
     args = parser.parse_args()
 
-    os.chdir(args.directory)
-    baglist = get_baglist()
+    baglist = get_baglist(args.baglist, args.directory)
+    os.chdir(baglist['base directory'])
     if args.report:
         report(baglist)
     else:
-        validate(baglist)
+        validate(baglist, args.baglist)
