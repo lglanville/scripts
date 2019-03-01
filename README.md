@@ -26,4 +26,4 @@ Will recursively search through the directory identify and validating bags, fina
 
     python bagcheck.py  --baglist /path/to/baglist.json /directory/with/bagsinit
 
-Will open the baglist specified if it exists or save the resulting baglist to that location. If the baglist alreday exists, the directory is not required as bagcheck uses the directory specified in the baglist. 
+Will open the baglist specified if it exists or save the resulting baglist to that location. If the baglist already exists, the directory is not required as bagcheck uses the directory specified in the baglist.
