@@ -7,9 +7,9 @@ Recursive bulk bag validation. Saves validation results in a json file at the ba
 
 Installation
 
-python 3 required
+python 3.7 required
 
-::
+
 
   pip install bagit
 
@@ -18,13 +18,13 @@ clone, copy or download the script to a local destination.
 Command Line Usage
 ------------------
 
-::
+
 
     python bagcheck.py  /directory/with/bagsinit
 
 Will recursively search through the directory identify and validating bags, finally saving the results to the file 'bags.json' in the directory provided.
 
-::
+
 
     python bagcheck.py  --baglist /path/to/baglist.json /directory/with/bagsinit
 
