@@ -6,7 +6,9 @@ General purpose scripts
 Recursive bulk bag validation. Saves validation results in a json file at the base directory. Will report on new bags added to the directory and bags that are missing since the previous scan. --report option will print to cl the last validation for each bag and how long it's been since last checked.
 
 Installation
+
 python 3 required
+
 ::
 
   pip install bagit
