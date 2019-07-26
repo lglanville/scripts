@@ -11,7 +11,7 @@ python 3.7 required
 
 
 
-  pip install bagit
+    pip install bagit
 
 clone, copy or download the script to a local destination.
 
