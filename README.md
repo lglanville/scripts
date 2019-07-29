@@ -1,4 +1,4 @@
-##Various scripts for working with bagit pakcages
+## Various scripts for working with bagit pakcages
 
 Installation
 
@@ -10,7 +10,7 @@ python 3.7 required
 
 clone, copy or download the script to a local destination.
 
-####bagcheck.py
+#### bagcheck.py
 
 Recursive bulk bag validation. Saves validation results in a json file at the base directory. Will report on new bags added to the directory and bags that are missing since the previous scan. --report option will print to cl the last validation for each bag and how long it's been since last checked.
 
@@ -26,7 +26,7 @@ python bagcheck.py  --baglist /path/to/baglist.json /directory/with/bagsinit
 ```
 Will open the baglist specified if it exists or save the resulting baglist to that location. If the baglist already exists, the directory is not required as bagcheck uses the directory specified in the baglist.
 
-####bag_split.py
+#### bag_split.py
 Split a bag using a unix path expression. Checksum are transferred between the original and new bag and both bags are validated on exit.
 
 Usage
@@ -35,7 +35,7 @@ Usage
 ```
 python bag_split.py  /original_bag /new_bag --split data/directory*
 ```
-####bag_compare.py
+#### bag_compare.py
 Uses difflib to compare relative similarity between bags.
 
 Usage
