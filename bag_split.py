@@ -7,6 +7,7 @@ from fnmatch import fnmatch
 
 
 def payload_filter(bag, splitter):
+    'splits a payload on a unix path expression, returning both halves'
     new_payload = {
         file: hash for file, hash in bag.payload_entries().items()
         if fnmatch(os.path.normpath(file), splitter)}
@@ -17,6 +18,7 @@ def payload_filter(bag, splitter):
 
 
 def move_files(payload_dict, dest):
+    'move files from old bag to new'
     for file in payload_dict.keys():
         dirs = os.path.split(file)[0]
         destination = os.path.join(dest, dirs)
@@ -24,6 +26,9 @@ def move_files(payload_dict, dest):
             os.makedirs(destination)
         logging.info('Copying {} to {}'.format(file, destination))
         shutil.copy2(file, destination)
+
+
+def del_files(payload_dict):
     for file in payload_dict.keys():
         logging.info('Removing {}'.format(file))
         os.remove(file)
@@ -68,9 +73,12 @@ def main(source, dest, splitter):
     new_bag.info['Payload-Oxum'] = new_oxum
     source_bag.info['Payload-Oxum'] = old_oxum
     new_bag.save()
-    source_bag.save()
     logging.info('Validating bag {}'.format(new_bag.path))
-    new_bag.validate()
+    if new_bag.validate():
+        del_files(new_payload)
+        source_bag.save()
+    else:
+        logging.error('bag {} is invalid'.format(new_bag.path))
     logging.info('Validating bag {}'.format(source_bag.path))
     source_bag.validate()
 
