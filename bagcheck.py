@@ -19,10 +19,9 @@ def get_baglist(filepath, *args):
 def find_bags(baglist):
     bags = []
     for root, _, files in os.walk(baglist['base directory']):
-        for file in files:
-            if file == 'bagit.txt':
-                bags.append(
-                    os.path.relpath(root, start=baglist['base directory']))
+        if 'bagit.txt' in files:
+            bags.append(
+                os.path.relpath(root, start=baglist['base directory']))
     return(bags)
 
 

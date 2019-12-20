@@ -87,11 +87,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Generate or update EMu upload csv for digital surrogates')
     parser.add_argument(
-        'source', metavar='i', type=str, help='the path of bag to split')
+        'source', metavar='i', help='the path of bag to split')
     parser.add_argument(
         'dest', metavar='o', help='new path for split files')
     parser.add_argument(
-        '--split', metavar='s', dest='split', required=True,
+        '--split', '-s', dest='split', required=True,
         help='relative path (beginning with "data") to split bag on.'
         'Supports unix style pattern matching')
 
